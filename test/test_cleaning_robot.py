@@ -50,5 +50,41 @@ class TestCleaningRobot(TestCase):
         mock_gpio_output.assert_any_call(robot.CLEANING_SYSTEM_PIN, False)
         mock_gpio_output.assert_any_call(robot.RECHARGE_LED_PIN, True)
 
+    #User Story 3
+    @patch.object(CleaningRobot, 'activate_wheel_motor')
+    @patch.object(CleaningRobot, 'activate_rotation_motor')
+    def test_execute_move_forward(self, mock_rotate, mock_move):
+        robot = CleaningRobot()
+        robot.initialize_robot()
+        result = robot.execute_command('f')
+        self.assertEqual(result, "(0,1,N)")
+        mock_move.assert_called_once()
+        mock_rotate.assert_not_called()
+
+    @patch.object(CleaningRobot, 'activate_wheel_motor')
+    @patch.object(CleaningRobot, 'activate_rotation_motor')
+    def test_execute_rotate_right(self, mock_rotate, mock_move):
+        robot = CleaningRobot()
+        robot.initialize_robot()
+        result = robot.execute_command('r')
+        self.assertEqual(result, "(0,0,E)")
+        mock_rotate.assert_called_once_with('r')
+        mock_move.assert_not_called()
+
+    @patch.object(CleaningRobot, 'activate_wheel_motor')
+    @patch.object(CleaningRobot, 'activate_rotation_motor')
+    def test_execute_rotate_left(self, mock_rotate, mock_move):
+        robot = CleaningRobot()
+        robot.initialize_robot()
+        result = robot.execute_command('l')
+        self.assertEqual(result, "(0,0,W)")
+        mock_rotate.assert_called_once_with('l')
+        mock_move.assert_not_called()
+
+
+
+
+
+
 
 

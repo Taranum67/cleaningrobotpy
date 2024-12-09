@@ -81,6 +81,32 @@ class TestCleaningRobot(TestCase):
         mock_rotate.assert_called_once_with('l')
         mock_move.assert_not_called()
 
+    # User Story 4
+    @patch.object(CleaningRobot, 'obstacle_found')
+    @patch.object(CleaningRobot, 'activate_wheel_motor')
+    @patch.object(CleaningRobot, 'activate_rotation_motor')
+    def test_execute_move_forward_obstacle(self, mock_rotate, mock_move, mock_obstacle_found):
+        robot = CleaningRobot()
+        robot.initialize_robot()
+        mock_obstacle_found.return_value = True
+        result = robot.execute_command('f')
+        self.assertEqual(result, "(0,0,N)(0,0)")
+        mock_move.assert_not_called()
+        mock_rotate.assert_not_called()
+
+    @patch.object(CleaningRobot, 'obstacle_found')
+    @patch.object(CleaningRobot, 'activate_wheel_motor')
+    @patch.object(CleaningRobot, 'activate_rotation_motor')
+    def test_execute_move_forward_no_obstacle(self, mock_rotate, mock_move, mock_obstacle_found):
+        robot = CleaningRobot()
+        robot.initialize_robot()
+        mock_obstacle_found.return_value = False
+        result = robot.execute_command('f')
+        self.assertEqual(result, "(0,1,N)")
+        mock_move.assert_called_once()
+        mock_rotate.assert_not_called()
+
+
 
 
 

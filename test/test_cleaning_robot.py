@@ -72,3 +72,4 @@ class TestCleaningRobot(TestCase):
         mock_ibs.return_value = 15
         mock_input.return_value = 1
         self.assertEqual(system.execute_command(system.FORWARD), "(0,0,N)(0,1)")
+

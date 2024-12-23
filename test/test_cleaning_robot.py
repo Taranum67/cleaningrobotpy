@@ -73,3 +73,15 @@ class TestCleaningRobot(TestCase):
         mock_input.return_value = 1
         self.assertEqual(system.execute_command(system.FORWARD), "(0,0,N)(0,1)")
 
+    # User Story 5
+    @patch.object(IBS, "get_charge_left")
+    def test_charge_left_equal_or_less_than_10(self, mock_ibs: Mock):
+        system = CleaningRobot()
+        system.initialize_robot()
+        mock_ibs.return_value = 7
+        system.pos_x = 1
+        system.pos_y = 1
+        system.heading = "N"
+        system.manage_cleaning_system()
+        self.assertEqual(system.execute_command(system.FORWARD), "!(1,1,N)")
+

@@ -3,7 +3,7 @@ from unittest.mock import Mock, patch, call
 
 from mock import GPIO
 from mock.ibs import IBS
-from src.cleaning_robot import CleaningRobot
+from src.cleaning_robot import CleaningRobot, CleaningRobotError
 
 
 class TestCleaningRobot(TestCase):
@@ -35,7 +35,30 @@ class TestCleaningRobot(TestCase):
     @patch.object(IBS, "get_charge_left")
     def test_move_forward(self, mock_ibs: Mock):
         system = CleaningRobot()
-        mock_ibs.return_value = 11
+        mock_ibs.return_value = 20
         system.initialize_robot()
         system.execute_command(system.FORWARD)
         self.assertEqual(system.robot_status(), "(0,1,N)")
+
+    @patch.object(IBS, "get_charge_left")
+    def test_move_right(self, mock_ibs: Mock):
+        system = CleaningRobot()
+        mock_ibs.return_value = 20
+        system.initialize_robot()
+        system.execute_command(system.RIGHT)
+        self.assertEqual(system.robot_status(), "(0,0,E)")
+
+    @patch.object(IBS, "get_charge_left")
+    def test_move_left(self, mock_ibs: Mock):
+        system = CleaningRobot()
+        mock_ibs.return_value = 20
+        system.initialize_robot()
+        system.execute_command(system.LEFT)
+        self.assertEqual(system.robot_status(), "(0,0,W)")
+
+    @patch.object(IBS, "get_charge_left")
+    def test_no_movement(self, mock_ibs: Mock):
+        system = CleaningRobot()
+        mock_ibs.return_value = 20
+        system.initialize_robot()
+        self.assertRaises(CleaningRobotError, system.execute_command, "X")

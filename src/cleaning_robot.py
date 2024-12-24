@@ -137,7 +137,11 @@ class CleaningRobot:
         self.heading = self.N
 
     def detect_dirt_level(self, level: str) -> None:
-        pass
+        self.dirt_level = level
+        if level == "high":
+            self.cleaning_speed = "slow"
+        else:
+            self.cleaning_speed = "normal"
 
     def activate_wheel_motor(self) -> None:
         """

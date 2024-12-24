@@ -129,7 +129,9 @@ class CleaningRobot:
             self.recharge_led_on = True
 
     def return_to_start(self) -> None:
-        pass
+        self.pos_x = 0
+        self.pos_y = 0
+        self.heading = self.N
 
     def activate_wheel_motor(self) -> None:
         """

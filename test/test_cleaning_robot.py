@@ -95,4 +95,18 @@ class TestCleaningRobot(TestCase):
         system.return_to_start()
         self.assertEqual(system.robot_status(), "(0,0,N)")
 
+    # User Story 7
+    @patch.object(IBS, "get_charge_left")
+    def test_adjusting_cleaning_intensity(self, mock_ibs: Mock):
+        system = CleaningRobot()
+        mock_ibs.return_value = 50
+        system.initialize_robot()
+        system.detect_dirt_level("low")
+        system.execute_command("f")
+        system.detect_dirt_level("high")
+        system.execute_command("f")
+        self.assertEqual(system.cleaning_speed, "slow")
+
+
+
 

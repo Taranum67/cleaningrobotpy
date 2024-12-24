@@ -61,6 +61,9 @@ class CleaningRobot:
         self.pos_y = None
         self.heading = None
 
+        self.dirt_level = 'low'
+        self.cleaning_speed = 'normal'
+
         self.recharge_led_on = False
         self.cleaning_system_on = False
 
@@ -132,6 +135,9 @@ class CleaningRobot:
         self.pos_x = 0
         self.pos_y = 0
         self.heading = self.N
+
+    def detect_dirt_level(self, level: str) -> None:
+        pass
 
     def activate_wheel_motor(self) -> None:
         """

@@ -85,3 +85,14 @@ class TestCleaningRobot(TestCase):
         system.manage_cleaning_system()
         self.assertEqual(system.execute_command(system.FORWARD), "!(1,1,N)")
 
+    # User Story 6
+    @patch.object(IBS, "get_charge_left")
+    def test_return_to_start_position(self, mock_ibs: Mock):
+        system = CleaningRobot()
+        mock_ibs.return_value = 20
+        system.initialize_robot()
+        system.pos_x, system.pos_y = 2, 2
+        system.return_to_start()
+        self.assertEqual(system.robot_status(), "(0,0,N)")
+
+

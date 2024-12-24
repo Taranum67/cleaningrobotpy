@@ -128,6 +128,9 @@ class CleaningRobot:
             self.cleaning_system_on = False
             self.recharge_led_on = True
 
+    def return_to_start(self) -> None:
+        pass
+
     def activate_wheel_motor(self) -> None:
         """
         Let the robot move forward by activating its wheel motor
